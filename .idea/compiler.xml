@@ -20,7 +20,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="ApmCounter" target="1.8" />
+      <module name="ApmCounter" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
