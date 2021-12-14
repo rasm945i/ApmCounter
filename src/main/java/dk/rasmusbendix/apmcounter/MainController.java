@@ -10,6 +10,8 @@ import javafx.stage.DirectoryChooser;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.UnaryOperator;
 
 public class MainController {
@@ -164,8 +166,10 @@ public class MainController {
         updateStaticKeyCollection();
         updateGlobalSettingsUI();
 
-        if(settings.isEnableObsIntegration())
-            Main.getObsIntegration().connect();
+        if(settings.isEnableObsIntegration()) {
+            ExecutorService service = Executors.newScheduledThreadPool(1);
+            service.execute(() -> Main.getObsIntegration().connect());
+        }
 
     }
 
@@ -304,7 +308,9 @@ public class MainController {
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("APM - CSV Save Location");
 
-        if(CsvSaver.getCsvSaveLocation() != null) {
+        if(CsvSaver.getCsvSaveLocation() != null &&
+                CsvSaver.getCsvSaveLocation().exists() &&
+                CsvSaver.getCsvSaveLocation().isDirectory()) {
             chooser.setInitialDirectory(CsvSaver.getCsvSaveLocation());
         }
 
