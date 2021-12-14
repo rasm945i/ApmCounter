@@ -21,6 +21,7 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 700, 475));
         primaryStage.setResizable(false);
         primaryStage.show();
+        primaryStage.sizeToScene();
 
         // Mouse and keyboard events
         GlobalScreen.registerNativeHook();
