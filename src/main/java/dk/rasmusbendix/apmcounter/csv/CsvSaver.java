@@ -21,6 +21,10 @@ public class CsvSaver {
         int actionsPerMinute = 0;
         ArrayList<Integer> listOfActions = new ArrayList<>();
         ArrayList<Long> timestamps = wrapper.getCounter().getActions();
+        if(timestamps.isEmpty()) {
+            System.out.println("No timestamps registered, cannot save CSV!");
+            return;
+        }
         long firstStamp = timestamps.get(0);
         long minuteInMs = TimeUnit.MINUTES.toMillis(1);
         int minutesToOffset = 0;
