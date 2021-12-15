@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.twasi.obsremotejava.OBSRemoteController;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class ObsIntegration {
@@ -11,10 +12,10 @@ public class ObsIntegration {
     private OBSRemoteController controller;
     @Getter @Setter private String websocket;
     @Getter @Setter private String password;
+    private final HashMap<String, Map<String, Object>> cachedSourceSettings;
 
     public ObsIntegration() {
-        websocket = "";
-        password = "";
+        this("","");
     }
 
     public ObsIntegration(String websocket) {
@@ -24,7 +25,10 @@ public class ObsIntegration {
     public ObsIntegration(String websocket, String password) {
         this.websocket = websocket;
         this.password = password;
-        connect();
+        this.cachedSourceSettings = new HashMap<>();
+
+        if(!websocket.isEmpty())
+            connect();
     }
 
     public void connect() {
@@ -47,11 +51,20 @@ public class ObsIntegration {
 
     public void updateSource(String source, String newText) {
 
-        controller.getSourceSettings(source, cb -> {
-            Map<String, Object> settings = cb.getSourceSettings();
-            settings.put("text", newText);
-            controller.setSourceSettings(source, settings, nl -> {});
-        });
+        Map<String, Object> cachedSettings = cachedSourceSettings.getOrDefault(source, null);
+
+        if(cachedSettings == null) {
+            controller.getSourceSettings(source, cb -> {
+                Map<String, Object> settings = cb.getSourceSettings();
+                settings.put("text", newText);
+                cachedSourceSettings.put(source, settings);
+                controller.setSourceSettings(source, settings, nl -> {});
+            });
+            return;
+        }
+
+        cachedSettings.put("text", newText);
+        controller.setSourceSettings(source, cachedSettings, nl -> {});
 
     }
 
