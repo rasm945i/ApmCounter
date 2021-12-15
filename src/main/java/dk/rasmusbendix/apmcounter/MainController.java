@@ -2,6 +2,7 @@ package dk.rasmusbendix.apmcounter;
 
 import dk.rasmusbendix.apmcounter.apm.EventWrapper;
 import dk.rasmusbendix.apmcounter.csv.CsvSaver;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -167,8 +168,7 @@ public class MainController {
         updateGlobalSettingsUI();
 
         if(settings.isEnableObsIntegration()) {
-            ExecutorService service = Executors.newScheduledThreadPool(1);
-            service.execute(() -> Main.getObsIntegration().connect());
+            Platform.runLater(() -> Main.getObsIntegration().connect());
         }
 
     }
