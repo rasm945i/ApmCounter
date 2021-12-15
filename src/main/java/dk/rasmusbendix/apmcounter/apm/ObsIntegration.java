@@ -26,9 +26,6 @@ public class ObsIntegration {
         this.websocket = websocket;
         this.password = password;
         this.cachedSourceSettings = new HashMap<>();
-
-        if(!websocket.isEmpty())
-            connect();
     }
 
     public void connect() {
