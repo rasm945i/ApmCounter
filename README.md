@@ -10,3 +10,9 @@ Your OBS Text source must be named the same thing as your group. That is how the
 
 ## CSV Saves
 The last value may be incorrect and values may be off by 1. I haven't tested this feature that much yet.
+
+## Recommended usage
+For best performance, it is recommneded to use the deprecated "FreeType 2" text rather than Pango or GDI+.  
+  
+When using the program with OBS, the groups you add (with the "Add" button in the bottom left) must match the source name you wish to update.  
+If your source is named "my clicks", the group should also be named "my clicks". Remember to hit "Apply Settings" after changing the name.
