@@ -16,7 +16,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getResource("/main_controller.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/redo_controller.fxml"));
         primaryStage.setTitle("Bendix' APM Counter");
         primaryStage.setScene(new Scene(root, 700, 500));
 

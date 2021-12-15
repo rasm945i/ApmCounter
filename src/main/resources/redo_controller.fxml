@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<HBox minHeight="400" minWidth="600" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.rasmusbendix.apmcounter.MainController">
+   <children>
+      <VBox minHeight="200.0" minWidth="200.0">
+         <children>
+            <ListView fx:id="keyCollection" focusTraversable="false" prefHeight="400.0" prefWidth="200.0" />
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+               <children>
+                  <Button fx:id="addKeyCollection" mnemonicParsing="false" onAction="#onAddCollection" text="Add" />
+                  <Button fx:id="removeKeyCollection" mnemonicParsing="false" onAction="#onRemoveCollection" text="Remove" />
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox alignment="TOP_CENTER" minHeight="500.0" minWidth="300.0" spacing="8.0" style="-fx-background-color: #eee;">
+         <children>
+            <TextField fx:id="groupName" alignment="CENTER" minWidth="75.0" promptText="Group Name">
+               <VBox.margin>
+                  <Insets left="50.0" right="50.0" />
+               </VBox.margin>
+            </TextField>
+            <HBox prefHeight="252.0" prefWidth="270.0" spacing="5.0">
+               <children>
+                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="200.0" spacing="8.0">
+                     <children>
+                        <CheckBox fx:id="keyboardCheckbox" mnemonicParsing="false" text="Keyboard Events">
+                           <padding>
+                              <Insets bottom="5.0" />
+                           </padding>
+                        </CheckBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="8.0">
+                           <children>
+                              <RadioButton fx:id="allKeysRadio" mnemonicParsing="false" selected="true" text="All keystrokes">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="keys" />
+                                 </toggleGroup></RadioButton>
+                              <RadioButton fx:id="specificKeysRadio" mnemonicParsing="false" text="Only selected keys" toggleGroup="$keys" />
+                           </children>
+                        </VBox>
+                        <ListView fx:id="selectedKeysList" minHeight="100.0" />
+                        <Button fx:id="selectKeysButton" mnemonicParsing="false" onAction="#onSelectKeys" text="Start Selecting">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </Button>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="200.0" spacing="8.0">
+                     <children>
+                        <CheckBox fx:id="mouseCheckbox" mnemonicParsing="false" text="Mouse Events">
+                           <padding>
+                              <Insets bottom="5.0" />
+                           </padding>
+                        </CheckBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="8.0">
+                           <children>
+                              <RadioButton fx:id="allClicksRadio" mnemonicParsing="false" selected="true" text="All clicks">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="clicks" />
+                                 </toggleGroup></RadioButton>
+                              <RadioButton fx:id="specificClicksRadio" mnemonicParsing="false" text="Only selected clicks" toggleGroup="$clicks" />
+                           </children>
+                        </VBox>
+                        <ListView fx:id="selectedClicksList" minHeight="100.0" />
+                        <Button fx:id="selectClicksButton" mnemonicParsing="false" onAction="#onSelectClicks" text="Start Selecting">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </Button>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </VBox>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+               <children>
+                  <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="200.0" spacing="8.0">
+                     <children>
+                        <RadioButton fx:id="changeRadio" mnemonicParsing="false" selected="true" text="Update on change">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="updateGroup" />
+                           </toggleGroup></RadioButton>
+                        <RadioButton fx:id="intervalRadio" mnemonicParsing="false" text="Update at interval" toggleGroup="$updateGroup" />
+                        <HBox alignment="CENTER" prefHeight="33.0" prefWidth="133.0">
+                           <children>
+                              <TextField fx:id="updateIntervalMs" alignment="CENTER" maxWidth="80.0" promptText="250" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ms">
+                                 <HBox.margin>
+                                    <Insets left="2.0" />
+                                 </HBox.margin>
+                              </Text>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="200.0" spacing="8.0">
+                     <children>
+                        <RadioButton fx:id="allActionsRadio" mnemonicParsing="false" selected="true" text="All actions">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="actions" />
+                           </toggleGroup></RadioButton>
+                        <RadioButton fx:id="actionLastXRadio" mnemonicParsing="false" text="Actions last X ms" toggleGroup="$actions" />
+                        <HBox alignment="CENTER" prefHeight="33.0" prefWidth="133.0">
+                           <children>
+                              <TextField fx:id="actionsPerMs" alignment="CENTER" maxWidth="80.0" promptText="250" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ms">
+                                 <HBox.margin>
+                                    <Insets left="2.0" />
+                                 </HBox.margin>
+                              </Text>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="45.0" prefWidth="270.0">
+               <children>
+                  <Button fx:id="applySettingsButton" mnemonicParsing="false" onAction="#applyEventWrapperSettings" text="Apply Settings" />
+               </children>
+            </HBox>
+         </children>
+         <HBox.margin>
+            <Insets />
+         </HBox.margin>
+         <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </padding>
+      </VBox>
+      <VBox minHeight="200.0" minWidth="200.0" style="-fx-background-color: #ddd;">
+         <children>
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="200.0" spacing="8.0" style="-fx-background-color: #ddd;">
+               <children>
+                  <VBox minHeight="50.0" spacing="10.0">
+                     <children>
+                        <CheckBox fx:id="csvEnabled" mnemonicParsing="false" text="Enable Save to CSV" />
+                        <CheckBox fx:id="csvAutosaveEnabled" mnemonicParsing="false" text="Autosave CSV" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" minHeight="50.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Autosave Interval (Seconds)" />
+                        <HBox alignment="CENTER" prefHeight="33.0" prefWidth="133.0">
+                           <children>
+                              <TextField fx:id="csvSaveInterval" alignment="CENTER" maxWidth="80.0" promptText="300" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="S">
+                                 <HBox.margin>
+                                    <Insets left="2.0" />
+                                 </HBox.margin>
+                              </Text>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" minHeight="65.0" spacing="4.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="CSV Save Location" />
+                        <Text fx:id="csvLocationString" strokeType="OUTSIDE" strokeWidth="0.0" text="N/A" />
+                        <Button fx:id="csvLocationButton" mnemonicParsing="false" onAction="#onChooseCsvLocation" text="Set CSV Save Location" />
+                     </children>
+                  </VBox>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefHeight="235.0" prefWidth="200.0" spacing="8.0" style="-fx-background-color: #ccc;">
+               <children>
+                  <VBox minHeight="25.0" prefWidth="170.0" spacing="10.0">
+                     <children>
+                        <CheckBox fx:id="enableObsIntegration" mnemonicParsing="false" text="Enable OBS Integration" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" minHeight="50.0" prefWidth="170.0" spacing="5.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Websocket URL" />
+                        <TextField fx:id="websocketField" alignment="CENTER" promptText="ws://localhost:4444" />
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" prefHeight="30.0" prefWidth="170.0" spacing="5.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Password (optional)" />
+                        <TextField fx:id="passwordField" alignment="CENTER" promptText="cakemaster420" />
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </VBox>
+                  <Text fx:id="obsStatusTextField" strokeType="OUTSIDE" strokeWidth="0.0" text="Status: Not Connected" />
+                  <HBox alignment="CENTER" prefHeight="45.0" prefWidth="170.0" spacing="30.0">
+                     <children>
+                        <Button fx:id="obsDisconnectButton" mnemonicParsing="false" onAction="#onObsDisconnectAction" text="Disconnect" />
+                        <Button fx:id="obsConnectButton" mnemonicParsing="false" onAction="#onObsConnectAction" text="Connect" />
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #bbb;">
+               <children>
+                  <Button fx:id="saveButton" mnemonicParsing="false" onAction="#onSave" text="Apply and Save Settings" />
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</HBox>
