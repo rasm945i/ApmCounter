@@ -387,4 +387,14 @@ public class MainController {
 
     }
 
+    @FXML
+    void onObsDisconnectAction(ActionEvent e) {
+
+    }
+
+    @FXML
+    void onObsConnectAction(ActionEvent e) {
+
+    }
+
 }
