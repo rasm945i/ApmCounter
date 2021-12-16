@@ -1,6 +1,7 @@
 package dk.rasmusbendix.apmcounter;
 
 import dk.rasmusbendix.apmcounter.apm.EventWrapper;
+import dk.rasmusbendix.apmcounter.apm.ObsIntegration;
 import dk.rasmusbendix.apmcounter.csv.CsvSaver;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -11,12 +12,11 @@ import javafx.stage.DirectoryChooser;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.function.UnaryOperator;
 
 public class MainController {
 
+    private static final double FADED_VALUE = 0.65;
     private static final String CSV_INVALID_LOCATION = "Invalid Location";
 
     private static ArrayList<EventWrapper> staticKeyCollection = new ArrayList<>();
@@ -125,6 +125,63 @@ public class MainController {
     @FXML
     private TextField updateIntervalMs;
 
+    @FXML
+    private Text obsStatusTextField;
+
+    @FXML
+    private Button obsDisconnectButton;
+
+    @FXML
+    private Button obsConnectButton;
+
+    private final ObsIntegration.ConnectionCallback connect = () -> {
+        Platform.runLater(() -> {
+            obsStatusTextField.setText("Status: Connected");
+
+            obsConnectButton.setDisable(true);
+            obsConnectButton.setOpacity(FADED_VALUE);
+
+            obsDisconnectButton.setDisable(false);
+            obsDisconnectButton.setOpacity(1);
+        });
+    };
+
+    private final ObsIntegration.ConnectionCallback disconnect = () -> {
+        Platform.runLater(() -> {
+            obsStatusTextField.setText("Status: Disconnected");
+
+            obsConnectButton.setDisable(false);
+            obsConnectButton.setOpacity(1);
+
+            obsDisconnectButton.setDisable(true);
+            obsDisconnectButton.setOpacity(FADED_VALUE);
+        });
+    };
+
+    private final ObsIntegration.ConnectionCallback close = () -> {
+        Platform.runLater(() -> {
+            obsStatusTextField.setText("Status: Disconnected");
+
+            obsConnectButton.setDisable(false);
+            obsConnectButton.setOpacity(1);
+
+            obsDisconnectButton.setDisable(true);
+            obsDisconnectButton.setOpacity(FADED_VALUE);
+        });
+    };
+
+    private final ObsIntegration.ConnectionCallback failed = () -> {
+        Platform.runLater(() -> {
+            obsStatusTextField.setText("Status: Failed");
+
+            obsConnectButton.setDisable(false);
+            obsConnectButton.setOpacity(1);
+
+            obsDisconnectButton.setDisable(true);
+            obsDisconnectButton.setOpacity(FADED_VALUE);
+        });
+    };
+
     public void initialize() {
 
         UnaryOperator<TextFormatter.Change> filter = change -> {
@@ -168,7 +225,7 @@ public class MainController {
         updateGlobalSettingsUI();
 
         if(settings.isEnableObsIntegration()) {
-            Platform.runLater(() -> Main.getObsIntegration().connect());
+            Platform.runLater(() -> Main.getObsIntegration().connect(connect, disconnect, close, failed));
         }
 
     }
@@ -371,7 +428,7 @@ public class MainController {
         Main.getObsIntegration().setPassword(settings.getPassword());
 
         if(settings.isEnableObsIntegration())
-            Main.getObsIntegration().connect();
+            Main.getObsIntegration().connect(connect, disconnect, close, failed);
 
         settings.savePreferences();
 
@@ -389,12 +446,12 @@ public class MainController {
 
     @FXML
     void onObsDisconnectAction(ActionEvent e) {
-
+        Main.getObsIntegration().disconnect();
     }
 
     @FXML
     void onObsConnectAction(ActionEvent e) {
-
+        Main.getObsIntegration().connect(connect, disconnect, close, failed);
     }
 
 }
