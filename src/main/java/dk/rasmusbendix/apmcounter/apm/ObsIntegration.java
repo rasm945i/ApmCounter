@@ -14,6 +14,11 @@ public class ObsIntegration {
     @Getter @Setter private String password;
     private final HashMap<String, Map<String, Object>> cachedSourceSettings;
 
+    @FunctionalInterface
+    public interface ConnectionCallback {
+        void callback();
+    }
+
     public ObsIntegration() {
         this("","");
     }
@@ -28,14 +33,21 @@ public class ObsIntegration {
         this.cachedSourceSettings = new HashMap<>();
     }
 
-    public void connect() {
+    public void connect(ConnectionCallback onConnect, ConnectionCallback onDisconnect, ConnectionCallback onClose, ConnectionCallback onFail) {
         if(websocket.isEmpty()) {
             System.out.println("No websocket URL specified!");
             return;
         }
         this.controller = password.isEmpty() ?
-                new OBSRemoteController(websocket, false) :
-                new OBSRemoteController(websocket, false, password);
+                new OBSRemoteController(websocket, false, (String)null, false) :
+                new OBSRemoteController(websocket, false, password, false);
+
+        this.controller.registerConnectCallback((versionResponse -> onConnect.callback()));
+        this.controller.registerDisconnectCallback(onDisconnect::callback);
+        this.controller.registerCloseCallback((i, s) -> onClose.callback());
+        this.controller.registerConnectionFailedCallback(s -> onFail.callback());
+
+        controller.connect();
 
         if(controller.isFailed()) {
             System.out.println("Failed to connect to OBS Websocket!");
