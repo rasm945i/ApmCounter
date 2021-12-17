@@ -13,7 +13,7 @@
 
 <HBox alignment="CENTER" minHeight="400" minWidth="600" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.rasmusbendix.apmcounter.MainController">
    <children>
-      <VBox minHeight="200.0" minWidth="200.0">
+      <VBox minHeight="200.0" minWidth="200.0" prefWidth="400.0">
          <children>
             <ListView fx:id="keyCollection" focusTraversable="false" prefHeight="400.0" prefWidth="200.0" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
@@ -30,7 +30,7 @@
             </HBox>
          </children>
       </VBox>
-      <VBox alignment="TOP_CENTER" minHeight="500.0" minWidth="300.0" spacing="8.0" style="-fx-background-color: #eee;">
+      <VBox alignment="TOP_CENTER" minHeight="500.0" minWidth="300.0" prefWidth="600.0" spacing="8.0" style="-fx-background-color: #eee;">
          <children>
             <TextField fx:id="groupName" alignment="CENTER" minWidth="75.0" promptText="Group Name">
                <VBox.margin>
@@ -153,7 +153,7 @@
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </padding>
       </VBox>
-      <VBox minHeight="200.0" minWidth="200.0" style="-fx-background-color: #ddd;">
+      <VBox minHeight="200.0" minWidth="200.0" prefWidth="400.0" style="-fx-background-color: #ddd;">
          <children>
             <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="200.0" spacing="8.0" style="-fx-background-color: #ddd;">
                <children>
