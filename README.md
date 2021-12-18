@@ -1,5 +1,7 @@
 # ApmCounter
 Track actions per minute, second or other specified custom interval.
+I sometimes stream various development on Twitch and whatever I feel like playing https://www.twitch.tv/bendixboy
+Feel free to contact me or open an issue if you have feature requests, bug reports or other issues.
 
 ## Installation
 Download latest release and double-click the jar file to run it.
