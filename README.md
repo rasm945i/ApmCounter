@@ -2,6 +2,7 @@
 Track actions per minute, second or other specified custom interval.
 
 ## Installation
+Download latest release and double-click the jar file to run it.
 Requires Java 11 (maybe 16, I'm not sure) and the OBS Websocket Plugin if you wish to use the OBS Integration (https://obsproject.com/forum/resources/obs-websocket-remote-control-obs-studio-from-websockets.466/)
 
 ## ??? 
