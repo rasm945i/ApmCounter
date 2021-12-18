@@ -1,6 +1,9 @@
 # ApmCounter
 Track actions per minute, second or other specified custom interval.
 
+## Installation
+Requires Java 11 (maybe 16, I'm not sure) and the OBS Websocket Plugin if you wish to use the OBS Integration (https://obsproject.com/forum/resources/obs-websocket-remote-control-obs-studio-from-websockets.466/)
+
 ## ??? 
 For some reason, a "JNativeHook.dll" is created in the same directory from which the program is launched, when the program is launched. It annoys me, but the program makes use of JNativeHook to track mouse and keyboard events.
 
