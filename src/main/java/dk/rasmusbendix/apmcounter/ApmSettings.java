@@ -3,7 +3,6 @@ package dk.rasmusbendix.apmcounter;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.File;
 import java.util.prefs.Preferences;
 
 public class ApmSettings {
@@ -21,6 +20,8 @@ public class ApmSettings {
     @Getter @Setter private String websocketUrl;
     @Getter @Setter private String password;
 
+    @Getter @Setter private String eventWrapperJson;
+
     private ApmSettings(Preferences preferences) {
         this.userprefs = preferences;
     }
@@ -35,6 +36,8 @@ public class ApmSettings {
         userprefs.putBoolean("enable-obs-integration", isEnableObsIntegration());
         userprefs.put("obs-websocket-url", getWebsocketUrl());
         userprefs.put("obs-password", getPassword());
+
+        userprefs.put("wrappers", eventWrapperJson);
 
     }
 
@@ -51,6 +54,8 @@ public class ApmSettings {
         settings.setEnableObsIntegration(userprefs.getBoolean("enable-obs-integration", false));
         settings.setWebsocketUrl(userprefs.get("obs-websocket-url", ""));
         settings.setPassword(userprefs.get("obs-password", ""));
+
+        settings.setEventWrapperJson(userprefs.get("wrappers", ""));
 
         return settings;
 
