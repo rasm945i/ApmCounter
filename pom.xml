@@ -95,6 +95,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.squareup.moshi</groupId>
+            <artifactId>moshi</artifactId>
+            <version>1.13.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>11</version>
