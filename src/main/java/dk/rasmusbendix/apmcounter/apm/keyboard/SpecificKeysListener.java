@@ -3,14 +3,14 @@ package dk.rasmusbendix.apmcounter.apm.keyboard;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
 import dk.rasmusbendix.apmcounter.apm.ActionEvent;
 
-import java.util.ArrayList;
+import java.util.Set;
 
 public class SpecificKeysListener extends KeyListenerWrapper {
 
-    private ArrayList<Integer> keycodes;
-    private ActionEvent event;
+    private final Set<Integer> keycodes;
+    private final ActionEvent event;
 
-    public SpecificKeysListener(ActionEvent event, ArrayList<Integer> codes) {
+    public SpecificKeysListener(ActionEvent event, Set<Integer> codes) {
         this.keycodes = codes;
         this.event = event;
     }
