@@ -1,5 +1,8 @@
 package dk.rasmusbendix.apmcounter;
 
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
+import com.squareup.moshi.Types;
 import dk.rasmusbendix.apmcounter.apm.EventWrapper;
 import dk.rasmusbendix.apmcounter.apm.ObsIntegration;
 import dk.rasmusbendix.apmcounter.csv.CsvSaver;
@@ -11,7 +14,9 @@ import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.*;
 import java.util.function.UnaryOperator;
 
 public class MainController {
@@ -20,8 +25,8 @@ public class MainController {
     private static final String CSV_INVALID_LOCATION = "Invalid Location";
 
     private static ArrayList<EventWrapper> staticKeyCollection = new ArrayList<>();
+    private static ApmSettings settings;
     private EventWrapper currentlySelected;
-    private ApmSettings settings;
 
     @FXML
     private Button addKeyCollection;
@@ -209,6 +214,7 @@ public class MainController {
 
         settings = ApmSettings.getFromPreferences();
 
+        loadEventWrappersFromSettings();
 
         // Keep track of selected group
         keyCollection.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -230,12 +236,47 @@ public class MainController {
 
     }
 
+    private void loadEventWrappersFromSettings() {
+
+        // Check if any json is actually present :)
+        if(settings.getEventWrapperJson().isEmpty())
+            return;
+
+        Moshi moshi = new Moshi.Builder().build();
+        Type type = Types.newParameterizedType(List.class, EventWrapper.class);
+        JsonAdapter<List<EventWrapper>> adapter = moshi.adapter(type);
+
+        System.out.println("Json found: " + settings.getEventWrapperJson());
+
+        try {
+            List<EventWrapper> wrappers = adapter.fromJson(settings.getEventWrapperJson());
+            assert wrappers != null;
+            wrappers.forEach(EventWrapper::construct);
+            keyCollection.getItems().addAll(wrappers);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     private void updateStaticKeyCollection() {
         staticKeyCollection = new ArrayList<>(keyCollection.getItems());
     }
 
     public static void shutdown() {
+
         staticKeyCollection.forEach(EventWrapper::deconstruct);
+
+        // Save all event-wrappers as Json array
+        Moshi moshi = new Moshi.Builder().build();
+        Type type = Types.newParameterizedType(List.class, EventWrapper.class);
+        JsonAdapter<ArrayList<EventWrapper>> jsonAdapter = moshi.adapter(type);
+
+        String json = jsonAdapter.toJson(staticKeyCollection);
+        System.out.println("Json saved: " + json);
+        settings.setEventWrapperJson(json);
+        settings.savePreferences();
+
     }
 
 
@@ -319,8 +360,8 @@ public class MainController {
         currentlySelected.setAllClicks(allClicksRadio.isSelected());
         currentlySelected.setAllKeys(allKeysRadio.isSelected());
 
-        currentlySelected.setKeys(new ArrayList<>(selectedKeysList.getItems()));
-        currentlySelected.setButtons(new ArrayList<>(selectedClicksList.getItems()));
+        currentlySelected.setKeys(new HashSet<>(selectedKeysList.getItems()));
+        currentlySelected.setButtons(new HashSet<>(selectedClicksList.getItems()));
 
         currentlySelected.setUsingObsIntegration(enableObsIntegration.isSelected());
 
