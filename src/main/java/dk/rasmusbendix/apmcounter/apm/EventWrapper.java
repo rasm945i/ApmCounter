@@ -15,7 +15,8 @@ import dk.rasmusbendix.apmcounter.csv.CsvSaver;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -23,11 +24,12 @@ import java.util.concurrent.TimeUnit;
 
 public class EventWrapper {
 
-    @Getter @Setter private ActionEvent actionEvent;
+    @Getter @Setter private transient ActionEvent actionEvent;
+
     @Getter @Setter private String id;
 
-    @Getter @Setter private ArrayList<Integer> keys;
-    @Getter @Setter private ArrayList<Integer> buttons;
+    @Getter @Setter private Set<Integer> keys;
+    @Getter @Setter private Set<Integer> buttons;
 
     @Getter @Setter private boolean useKeyboard = false;
     @Getter @Setter private boolean useMouse = false;
@@ -47,22 +49,22 @@ public class EventWrapper {
     @Getter @Setter private boolean usingObsIntegration;
     @Getter @Setter private boolean sourceExists;
 
-    private NativeMouseListener mouseListener;
-    private NativeKeyListener keyListener;
+    private transient NativeMouseListener mouseListener;
+    private transient NativeKeyListener keyListener;
 
-    @Getter @Setter Counter counter;
+    @Getter @Setter transient Counter counter;
 
-    private ScheduledExecutorService updaterService;
-    private ScheduledFuture<?> updaterFuture;
+    private transient ScheduledExecutorService updaterService;
+    private transient ScheduledFuture<?> updaterFuture;
 
-    private String csvFileName;
-    private ScheduledExecutorService csvService;
-    private ScheduledFuture<?> csvFuture;
+    private transient String csvFileName;
+    private transient ScheduledExecutorService csvService;
+    private transient ScheduledFuture<?> csvFuture;
 
     public EventWrapper(String id) {
         this.id = id;
-        this.keys = new ArrayList<>();
-        this.buttons = new ArrayList<>();
+        this.keys = Collections.emptySet();
+        this.buttons = Collections.emptySet();
         csvFileName = "";
     }
 
